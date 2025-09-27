@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tb_settings', function (Blueprint $table) {
-            $table->integer('order_id', false, true)->length(11)->autoIncrement();
+            $table->integer('setting_id', false, true)->length(11)->autoIncrement(); // ubah dari order_id
             $table->string('phone_number', 256);
             $table->string('email', 80);
             $table->text('address')->nullable();

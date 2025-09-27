@@ -3,6 +3,8 @@
         ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'fa-tachometer-alt'],
         ['route' => 'admin.katalog.index', 'label' => 'Katalog', 'icon' => 'fa-box-open'],
         ['route' => 'admin.pemesanan', 'label' => 'Pemesanan', 'icon' => 'fa-scroll'],
+        ['route' => 'admin.settings.index', 'label' => 'Settings', 'icon' => 'fa-scroll'],
+        ['route' => 'admin.laporan', 'label' => 'Laporan', 'icon' => 'fa-file-alt'],
     ];
     $currentRoute = Route::currentRouteName();
 @endphp

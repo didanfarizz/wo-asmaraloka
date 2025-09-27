@@ -20,6 +20,14 @@
                         <td class="px-6 py-4">{{ $order->catalogue->package_name ?? '-' }}</td>
                         <td class="px-6 py-4">{{ \Carbon\Carbon::parse($order->wedding_date)->format('d M Y') }}</td>
                         <td class="px-6 py-4 capitalize">{{ $order->status }}</td>
+                        <td class="px-6 py-4">
+                            <span
+                                class="px-3 py-1 rounded-full text-white font-semibold
+        {{ $order->status == 'requested' ? 'bg-yellow-400' : '' }}
+        {{ $order->status == 'approved' ? 'bg-green-600' : '' }}">
+                                {{ ucfirst($order->status) }}
+                            </span>
+                        </td>
                         <td class="flex gap-2 justify-center py-3">
                             {{-- Tombol Approve --}}
                             <form action="{{ route('admin.pemesanan.approve', $order->order_id) }}" method="POST">
@@ -43,6 +51,7 @@
                                 </button>
                             </form>
                         </td>
+
 
 
                     </tr>

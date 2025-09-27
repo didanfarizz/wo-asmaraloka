@@ -29,7 +29,7 @@
                         <td class="px-6 py-4 text-sm text-stone-500">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4">
                             @if ($item->image)
-                                <img src="{{ asset('catalogue_images/' . $item->image) }}"
+                                <img src="{{ asset('images/' . $item->image) }}"
                                     alt="{{ $item->package_name }}" class="w-20 h-20 object-cover rounded">
                             @else
                                 -

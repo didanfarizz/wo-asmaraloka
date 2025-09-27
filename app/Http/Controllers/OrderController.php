@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $request->validate([
-            'catalogue_id' => 'required|exists:tb_catalogues,catalogue_id',
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:100',
             'phone' => 'required|string|max:20',
@@ -18,13 +17,13 @@ class OrderController extends Controller
         ]);
 
         Order::create([
-            'catalogue_id' => $request->catalogue_id,
+            'catalogue_id' => $id,
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone,
             'wedding_date' => $request->event_date,
             'status' => 'requested',
-            'user_id' => 1, // karena user belum login // default status
+            'user_id' => 0, // untuk user publik
         ]);
 
         return redirect()->route('home')->with('success', 'Pemesanan berhasil dikirim.');
