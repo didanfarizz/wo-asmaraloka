@@ -1,7 +1,7 @@
 {{-- Menggunakan layout yang minimalis, karena ini adalah halaman otentikasi --}}
-<x-layouts.app title="Login - Asmaraloka">
+<x-layouts.app title="Login - LUVIRA">
     {{-- Background dan Centering --}}
-    <div class="flex justify-center bg-stone-50 px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-center items-center bg-[#F9F6F3] px-4 sm:px-6 lg:px-8">
 
         <div class="max-w-md w-full space-y-8">
             {{-- Formulir Login Card --}}

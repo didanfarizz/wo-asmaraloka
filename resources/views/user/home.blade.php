@@ -1,64 +1,100 @@
 <x-layouts.app title="Beranda">
     {{-- Hero Section --}}
-    <div class="relative">
-        <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-            style="background-image: url('{{ asset('images/wedding-hero.png') }}');">
-        </div>
+    <div class="w-full h-screen">
+            <div class="absolute inset-0">
+                <img
+                    src="{{ asset('images/hero.jpg') }}"
+                    alt="hero"
+                    class="h-full w-full object-cover object-center"
+                />
 
-        {{-- Overlay untuk kontras teks --}}
-        <div class="absolute inset-0 bg-amber-900/40"></div>
+                <div class="absolute inset-0 bg-black/60"></div>
+            </div>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10 text-center">
-            <h1 class="text-7xl md:text-8xl font-extrabold text-white tracking-wider font-serif drop-shadow-lg">
-                Asmaraloka
-            </h1>
-            <p class="text-2xl md:text-3xl text-white mt-4 font-light drop-shadow-md max-w-2xl mx-auto">
-                Wujudkan Pernikahan Impianmu dengan Sentuhan Elegan dan Hangat
-            </p>
-            <a href="#packages"
-                class="mt-8 inline-block px-8 py-3 text-lg font-semibold bg-white text-amber-700 rounded-full shadow-xl hover:bg-amber-50 transition duration-300 transform hover:scale-105">
-                Lihat Paket Pilihan
-            </a>
-        </div>
+            <div class="relative z-10 flex min-h-screen flex-col items-center justify-center gap-4 p-4 text-center">
+                <h1 class="text-4xl font-bold text-[#F9F6F3] md:text-6xl">
+                    LUVIRA
+                </h1>
+                <h3 class="text-2xl font-bold text-[#F9F6F3] md:text-4xl">
+                    Wujudkan Kisah Cinta Anda menjadi Kenyataan Agung
+                </h3>
+                <div class="mt-10 scroll-smooth text-lg bg-[#5A4737] p-4 rounded-xl hover:bg-[#F9F6F3] hover:text-[#5A4737] text-[#F9F6F3] md:text-2xl">
+                    <a href="#layanan-kami">Lihat Selengkapnya</a>
+                </div>
+            </div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    {{-- Section: LAYANAN KAMI (Dikonversi dari services.tsx) --}}
+    <section class="bg-[#F9F6F3]" id="layanan-kami">
+        <div class="px-4 text-center sm:px-6 lg:px-8">
+            <div class="mb-10 flex items-center justify-center">
+                {{-- Asumsi gambar bunga ada di public/bunga-1.png --}}
+                <img src="{{ asset('images/bunga-1.png') }}" alt="bunga1" class="w-60" />
+            </div>
+            <h2 class="mb-12 inline-block border-b-2 border-[#5A4737] pb-1 font-serif text-3xl text-[#5A4737] md:text-4xl">
+                LAYANAN KAMI
+            </h2>
+            
+            {{-- Bagian Grid untuk Card Layanan --}}
+            <div class="grid gap-10 md:grid-cols-3">
+                {{-- Data Services (Dikonversi dari array services di services.tsx) --}}
+                @php
+                    $services = [
+                        [
+                            'icon_class' => 'fas fa-heart', // Ganti ikon React dengan kelas Font Awesome
+                            'title' => 'Floral & Decor Mastery',
+                            'description' => 'Katalog yang berisi konsep desain visual dan instalasi bunga premium yang dikurasi Luvira. Kami bermitra dengan florist dan desainer dekorasi elit untuk menciptakan ambience yang dramatis, elegan, dan fotogenik, menggunakan bunga-bunga impor terbaik.',
+                        ],
+                        [
+                            'icon_class' => 'fas fa-calendar-alt',
+                            'title' => 'Bridal Aesthetics',
+                            'description' => 'Kami menghubungkan Anda dengan Master MUA, penata rambut, dan desainer couture terbaik untuk memastikan penampilan Anda di Hari-H sempurna, abadi, dan tanpa cela. Katalog ini berisi pilihan vendor top-tier yang menjamin kualitas dan kemewahan pada bridal look Anda.',
+                        ],
+                        [
+                            'icon_class' => 'fas fa-camera',
+                            'title' => 'Culinary Experience',
+                            'description' => 'Menghadirkan katering fine dining, kue pernikahan bespoke, dan layanan minuman spesial yang akan memanjakan tamu Anda. Katalog ini menjamin kualitas rasa dan presentasi makanan setara hotel bintang lima, menjadikan pesta Anda berkesan hingga santapan terakhir.',
+                        ],
+                    ];
+                @endphp
 
-        {{-- Section: Paket Pernikahan Pilihan --}}
-        <h2 id="packages" class="text-4xl font-extrabold text-center text-stone-800 mb-12 relative pb-3">
-            <span class="relative z-10">Paket Pernikahan Pilihan</span>
-            <span
-                class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-amber-500 rounded-full"></span>
-        </h2>
+                {{-- Loop untuk menampilkan ServiceCard (Dikonversi dari ServiceCard.tsx) --}}
+                @foreach ($services as $service)
+                    {{-- Card Desain Layanan --}}
+                    <div class="flex flex-col items-center p-8 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 text-center">
+                        
+                        {{-- Wadah Ikon dengan Lingkaran Krem (Icon Container) --}}
+                        <div class="flex items-center justify-center w-24 h-24 bg-stone-100 rounded-full mb-6">
+                            {{-- Menggunakan Font Awesome (pastikan sudah terinstal/linked) --}}
+                            <div class="text-4xl text-[#5A4737]">
+                                <i class="{{ $service['icon_class'] }}"></i> 
+                            </div> 
+                        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
-            @forelse ($katalog as $item)
-                {{-- Card Desain Baru --}}
-                <div
-                    class="bg-white rounded-xl shadow-xl overflow-hidden transform hover:scale-[1.02] transition duration-300 ease-in-out border border-stone-200">
-                    <img src="{{ asset('images/' . $item->image) }}" alt="{{ $item->package_name }}"
-                        class="w-full h-56 object-cover">
+                        {{-- Judul Layanan --}}
+                        <h3 class="text-xl font-serif font-semibold text-[#5A4737] mb-3 leading-tight">
+                            {{ $service['title'] }}
+                        </h3>
 
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold text-stone-800 mb-2">{{ $item->package_name }}</h3>
-                        <p class="text-3xl font-extrabold text-amber-700 mb-4">
-                            Rp{{ number_format($item->price, 0, ',', '.') }}
+                        {{-- Deskripsi Layanan --}}
+                        <p class="text-sm text-[#5A4737] mb-8 flex-grow">
+                            {{ $service['description'] }}
                         </p>
-                        <p class="text-base text-stone-500 mb-5 line-clamp-3">
-                            {{ $item->description }}
-                        </p>
-                        <a href="{{ route('paket.show', $item->catalogue_id) }}"
-                            class="w-full inline-block text-center px-4 py-3 bg-amber-700 text-white font-semibold rounded-lg hover:bg-amber-800 transition duration-300">
-                            Lihat Detail
-                            <i class="ml-2 fas fa-arrow-right"></i> {{-- Pastikan Anda memiliki Font Awesome (fas) untuk icon --}}
+
+                        {{-- Tombol "Pesan Sekarang" --}}
+                        {{-- Note: Harga yang ada di data services.tsx tidak ditampilkan di card ini, jadi saya hapus --}}
+                        <a href="#" {{-- Ganti # dengan link pemesanan yang sesuai --}}
+                           class="px-6 py-2 bg-[#5A4737] text-white text-sm font-medium rounded-full hover:bg-[#F9F6F3] hover:text-[#5A4737] transition duration-300 shadow-sm">
+                            Pesan Sekarang
                         </a>
                     </div>
-                </div>
-            @empty
-                <p class="text-center text-stone-500 col-span-3 py-10">Belum ada paket yang tersedia. Segera hadir
-                    paket-paket pernikahan terbaik dari Asmaraloka!</p>
-            @endforelse
+                @endforeach
+            </div>
         </div>
-
+    </section>
+    
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {{-- Section: Paket Pernikahan Pilihan --}}
+        {{-- ... (Kode Paket Pernikahan Anda) ... --}}
     </div>
 </x-layouts.app>

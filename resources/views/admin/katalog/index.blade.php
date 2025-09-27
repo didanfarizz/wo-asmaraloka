@@ -2,8 +2,8 @@
 
     <div class="flex justify-end mb-6">
         <a href="{{ route('admin.katalog.create') }}"
-            class="px-6 py-2 bg-amber-700 text-white font-semibold rounded-lg shadow-md 
-                   hover:bg-amber-800 transition duration-300 flex items-center">
+            class="px-6 py-2 bg-[#795F48] text-white font-semibold rounded-lg shadow-md 
+                   hover:bg-[#AE8563] hover:text-black transition duration-300 flex items-center">
             Tambah Data
         </a>
     </div>

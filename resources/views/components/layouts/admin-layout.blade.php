@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $title ?? 'Dashboard' }} | Asmaraloka Admin</title>
+    <title>{{ $title ?? 'Dashboard' }} | LUVIRA Admin</title>
     @vite('resources/css/app.css') {{-- Pastikan vite atau mix sudah dikonfigurasi --}}
 </head>
 <body class="bg-stone-100">

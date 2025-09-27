@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
         DB::table('tb_users')->insert([
             [
                 'name' => 'Administrator Luvira',
-                'username' => 'adminluvira',
-                'password' => Hash::make('admin123'), 
+                'username' => 'admin',
+                'password' => Hash::make('password123'), 
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
