@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('tb_users')->insert([
             [
-                'name' => 'Administrator Asmaraloka',
+                'name' => 'Administrator Luvira',
                 'username' => 'admin',
                 'password' => Hash::make('password123'),
                 'created_at' => now(),
