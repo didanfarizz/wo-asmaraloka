@@ -44,6 +44,8 @@ class UserController extends Controller
 
     public function cek()
     {
-        return view('user.cekpesanan');
+        $orders = collect([]);
+        $email = null; 
+        return view('user.cekpesanan', compact('orders', 'email'));
     }
 }

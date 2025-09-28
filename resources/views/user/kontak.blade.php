@@ -1,46 +1,77 @@
-<x-layouts.app title="Kontak Kami">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-stone-800 border-b-2 border-amber-500 inline-block pb-2">
-                Kontak Kami
+<x-layouts.app title="Kontak Kami - LUVIRA">
+    {{-- Bagian Header: Tetap Bersih dan Fokus --}}
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
+        <div class="text-center">
+            {{-- Mengubah font dan styling agar lebih modern --}}
+            <h1 class="text-5xl font-extrabold text-[#362719] tracking-tight">
+                Hubungi Kami
             </h1>
-            <p class="text-lg text-stone-600 mt-4">
-                Hubungi tim Asmaraloka melalui media di bawah ini.
+            <p class="text-xl text-stone-500 mt-4 max-w-2xl mx-auto">
+                Kami siap membantu Anda. Silakan hubungi tim LUVIRA melalui media di bawah ini.
             </p>
         </div>
+    </div>
 
-        <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl border border-amber-100">
+    {{-- Bagian Konten Utama: Redesain Layout --}}
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        @php
+            // Data kontak tetap sama
+            $setting = $setting ?? (object)['whatsapp_url' => '-', 'instagram_url' => '-', 'phone_number' => '-', 'email' => '-'];
 
-            @php
-                $kontak = [
-                    ['platform' => 'WhatsApp', 'info' => $setting->whatsapp_url ?? '-', 'icon' => 'fa-whatsapp'],
-                    ['platform' => 'Instagram', 'info' => $setting->instagram_url ?? '-', 'icon' => 'fa-instagram'],
-                    ['platform' => 'Nomor Telepon', 'info' => $setting->phone_number ?? '-', 'icon' => 'fa-phone'],
-                    ['platform' => 'Email', 'info' => $setting->email ?? '-', 'icon' => 'fa-envelope'],
-                ];
-            @endphp
+            $kontak = [
+                ['platform' => 'WhatsApp', 'info' => $setting->whatsapp_url ?? '-', 'icon' => 'fa-brands fa-whatsapp', 'color' => 'bg-green-500', 'hover' => 'hover:bg-green-600'],
+                ['platform' => 'Instagram', 'info' => $setting->instagram_url ?? '-', 'icon' => 'fa-brands fa-instagram', 'color' => 'bg-pink-600', 'hover' => 'hover:bg-pink-700'],
+                ['platform' => 'Nomor Telepon', 'info' => $setting->phone_number ?? '-', 'icon' => 'fa-phone', 'color' => 'bg-indigo-500', 'hover' => 'hover:bg-indigo-600'],
+                ['platform' => 'Email', 'info' => $setting->email ?? '-', 'icon' => 'fa-envelope', 'color' => 'bg-sky-500', 'hover' => 'hover:bg-sky-600'],
+            ];
+        @endphp
 
+        {{-- Menggunakan Grid untuk Layout 2 Kolom --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
             @foreach ($kontak as $item)
-                <div class="flex items-center justify-between py-5 border-b last:border-b-0 border-stone-200">
-                    <div class="flex items-center">
-                        {{-- Icon bisa ditambahkan jika FontAwesome dipakai --}}
-                        {{-- <i class="fab {{ $item['icon'] }} text-amber-700 text-xl mr-3"></i> --}}
-                        <span class="text-xl font-semibold text-stone-700">
-                            {{ $item['platform'] }}
-                        </span>
+                {{-- Card untuk Setiap Item Kontak --}}
+                <a href="{{ $item['info'] !== '-' ? ($item['platform'] === 'Email' ? 'mailto:' . $item['info'] : ($item['platform'] === 'Nomor Telepon' ? 'tel:' . $item['info'] : $item['info'])) : '#' }}"
+                   target="_blank"
+                   class="block p-6 rounded-2xl shadow-lg transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-2xl border border-stone-100 bg-white">
+                    
+                    <div class="flex items-start">
+                        {{-- Icon Besar dan Berwarna --}}
+                        {{-- Asumsi FontAwesome sudah dimuat di layout utama --}}
+                        <div class="p-4 rounded-full {{ $item['color'] }} text-white flex-shrink-0 mr-5">
+                            <i class="fas {{ $item['icon'] }} text-2xl"></i>
+                        </div>
+
+                        {{-- Konten Informasi Kontak --}}
+                        <div>
+                            <h2 class="text-2xl font-bold text-stone-800 mb-1">
+                                {{ $item['platform'] }}
+                            </h2>
+                            {{-- Informasi Kontak sebagai Teks --}}
+                            <p class="text-lg text-stone-600 mt-1 break-words">
+                                {{ $item['info'] }}
+                            </p>
+                            
+                            {{-- Teks Aksi (Call to Action) --}}
+                            <span class="mt-2 inline-block text-sm font-semibold text-amber-600 hover:text-amber-700 transition duration-300">
+                                @if ($item['info'] !== '-')
+                                    {{ $item['platform'] === 'Email' ? 'Kirim Email' : 'Hubungi Kami' }} &rarr;
+                                @else
+                                    Tidak Tersedia
+                                @endif
+                            </span>
+                        </div>
                     </div>
-
-                    <a href="#"
-                        class="text-xl font-bold text-amber-700 hover:text-amber-800 transition duration-300">
-                        {{ $item['info'] }}
-                    </a>
-                </div>
+                </a>
             @endforeach
+        </div>
 
-            <p class="text-center text-stone-500 mt-8 text-sm italic">
-                Kami siap melayani konsultasi Anda pada hari kerja (09:00 - 17:00 WIB).
+        {{-- Catatan Jam Operasional: Lebih Menonjol --}}
+        <div class="text-center mt-16 p-6 border-t-2 border-dashed border-stone-200">
+            <p class="text-lg font-medium text-stone-700">
+                <i class="far fa-clock mr-2 text-amber-600"></i>
+                Kami siap melayani konsultasi Anda pada **hari kerja**
+                <span class="font-bold text-amber-700">(09:00 - 17:00 WIB)</span>.
             </p>
-
         </div>
     </div>
 </x-layouts.app>

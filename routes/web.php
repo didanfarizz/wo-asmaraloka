@@ -16,9 +16,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::resource('katalog', KatalogController::class);
 
-    Route::get('/pemesanan', [AdminController::class, 'orders'])->name('pemesanan');
-    Route::patch('/pemesanan/{id}/approve', [AdminController::class, 'approveOrder'])->name('pemesanan.approve');
-    Route::delete('/pemesanan/{id}', [AdminController::class, 'destroyOrder'])->name('pemesanan.destroy');
+    // Order (Pemesanan) - Menggunakan OrderController
+    // OrderController harus memiliki method index, show, dan destroy
+    Route::resource('pemesanan', OrderController::class)->except(['create', 'store', 'edit', 'update']);
+    
+    // Rute Tambahan untuk aksi approve (Setuju)
+    // Asumsi: Method approveOrder ada di OrderController
+    Route::patch('/pemesanan/{id}/approve', [OrderController::class, 'approveOrder'])->name('pemesanan.approve');
 
     Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
 
@@ -50,7 +54,12 @@ Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::post('/cek-pesanan/cari', [OrderController::class, 'checkOrder'])->name('cek.pesanan.check'); 
+
 //ADMIN
+// Pemesanan Admin
+Route::resource('pemesanan', OrderController::class)->names('admin.pemesanan.index');
+
 // Route::get('dashboard', function () {
 //     return view('admin.dashboard');
 // });

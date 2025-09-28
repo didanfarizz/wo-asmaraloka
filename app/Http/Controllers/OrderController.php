@@ -28,4 +28,58 @@ class OrderController extends Controller
 
         return redirect()->route('home')->with('success', 'Pemesanan berhasil dikirim.');
     }
+
+    public function index()
+    {
+        $orders = Order::with('catalogue')->latest()->get();
+        return view('admin.pemesanan.index', compact('orders'));
+    }
+
+    /**
+     * Menyetujui status pesanan (Aksi Admin)
+     */
+    public function approveOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->status = 'approved';
+        $order->save();
+
+        return redirect()->route('admin.pemesanan.index')->with('success', 'Pesanan berhasil disetujui.');
+    }
+    
+    /**
+     * Hapus pesanan (Aksi Admin)
+     */
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->delete();
+        
+        return redirect()->route('admin.pemesanan.index')->with('success', 'Pesanan berhasil dihapus.');
+    }
+    
+    /**
+     * Memproses pencarian pesanan oleh user (Cek Pesanan)
+     */
+    public function checkOrder(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        $email = $request->email;
+
+        // Ambil semua pesanan berdasarkan email, bersama data katalog
+        $orders = Order::where('email', $email)
+                       ->with('catalogue')
+                       ->latest()
+                       ->get();
+
+        // Kirim hasil pencarian kembali ke view cekpesanan
+        return view('user.cekpesanan', compact('orders', 'email'));
+    }
+    
+    // Anda mungkin perlu method show($id) juga untuk detail pesanan admin
+    public function show($id)
+    {
+        $order = Order::with('catalogue')->findOrFail($id);
+        return view('admin.pemesanan.show', compact('order')); // Asumsi Anda punya view show
+    }
 }

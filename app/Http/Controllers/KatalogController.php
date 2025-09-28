@@ -35,8 +35,16 @@ class KatalogController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|integer',
             'status_publish' => 'required|in:Y,N',
-            'image' => 'required|string|max:100', // nama file gambar
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // nama file gambar
         ]);
+
+        $imageName = null;
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+        }
 
         Catalogue::create([
             'package_name' => $request->package_name,
@@ -44,7 +52,7 @@ class KatalogController extends Controller
             'price' => $request->price,
             'status_publish' => $request->status_publish,
             'user_id' => 1,
-            'image' => $request->image,
+            'image' => $imageName,
         ]);
 
         return redirect()->route('admin.katalog.index')->with('success', 'Katalog berhasil ditambahkan.');
@@ -71,15 +79,27 @@ class KatalogController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|integer',
             'status_publish' => 'required|in:Y,N',
-            'image' => 'required|string|max:100', // nama file gambar
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // nama file gambar
         ]);
+
+        $imageName = $katalog->image;
+
+        if ($request->hasFile('image')) {
+            $imageFile = $request->file('image');
+            $newImageName = time() . '_' . $imageFile->getClientOriginalName();
+            if ($katalog->image && file_exists(public_path('images/' . $katalog->image))) {
+                unlink(public_path('images/' . $katalog->image));
+            }
+            $imageFile->move(public_path('images'), $newImageName);
+            $imageName = $newImageName; // Update nama file yang akan disimpan ke DB
+        }
 
         $katalog->update([
             'package_name' => $request->package_name,
             'description' => $request->description,
             'price' => $request->price,
             'status_publish' => $request->status_publish,
-            'image' => $request->image,
+            'image' => $imageName,
         ]);
 
         return redirect()->route('admin.katalog.index')->with('success', 'Katalog berhasil diupdate.');
